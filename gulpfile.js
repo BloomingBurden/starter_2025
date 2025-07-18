@@ -70,8 +70,12 @@ let pth = {
 };
 
 function swallowError(error) {
-    console.log(error.toString());
-    this.emit('end');
+    notify.onError({
+		title: 'Gulp Error',
+		message: error.message
+	})(error);
+	console.log(error.toString());
+	this.emit('end');
 }
 
 function clear() {
@@ -80,8 +84,8 @@ function clear() {
 
 function js() {
     return gulp.src(pth.src.js)
+		.pipe($.plumber({ errorHandler: swallowError }))
         .pipe($.webpackStream(webconf))
-        .on('error', swallowError)
         .pipe(gulp.dest(pth.pbl.js))
         .pipe($.if(isSync, $.browserSync.stream()))
         .on('end', function () {
