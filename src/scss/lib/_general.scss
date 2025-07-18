@@ -1,0 +1,223 @@
+@use "lib" as *;
+
+body, html {
+	background-color: var(--bg);
+	font-size: var(--size);
+	color: var(--text);
+	font-family: var(--font, sans-serif);
+	display: flex;
+	flex-flow: column nowrap;
+	scrollbar-gutter: stable;
+}
+
+.no-scrolling {
+	overflow: hidden;
+}
+
+.container {
+	$self: &;
+	margin-left: auto;
+	margin-right: auto;
+	box-sizing: border-box;
+	width: min(var(--container), calc(100% - 12px * 2));
+
+	&_abs {
+		position: absolute;
+		left: max(var(--gap), calc((100% - var(--container)) / 2));
+	}
+	
+	&_right {
+		width: min(calc(100% - var(--gap)), calc(100% - (100% - var(--container)) / 2));
+		margin-right: unset;
+	}
+	
+	&_left {
+		width: min(calc(100% - var(--gap)), calc(100% - (100% - var(--container)) / 2));
+		margin-left: unset;
+	}
+	
+	&__half {
+		flex-shrink: 0;
+		width: min(calc(var(--container) / 2), 50%);
+	}
+
+	&__full {
+		flex-shrink: 0;
+		width: min(var(--container), 100%);
+	}
+}
+
+.list-reset {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+
+.av {
+	pointer-events: none;
+	user-select: none;
+	opacity: 0;
+	visibility: hidden;
+	transition: all var(--trans);
+}
+
+.visually-hidden {
+    position: absolute;
+    overflow: hidden;
+    margin: -1px;
+    border: 0;
+    padding: 0;
+    width: 1px;
+    height: 1px;
+    clip: rect(0 0 0 0);
+}
+
+.d-flex {
+    display: flex;
+}
+
+.f-c {
+    align-items: center;
+    justify-content: center;
+}
+
+.f-ac {
+    align-items: center;
+}
+
+.f-as {
+    align-items: flex-start;
+}
+
+.f-ae {
+    align-items: flex-end;
+}
+
+.f-col {
+    flex-direction: column;
+}
+
+.f-jsb {
+    justify-content: space-between;
+}
+
+.f-jc {
+    justify-content: center;
+}
+
+.f-wrap {
+    flex-wrap: wrap;
+}
+
+.img-contain {
+    object-fit: contain;
+    width: 100%;
+    height: 100%;
+}
+
+.img-cover {
+    object-fit: cover;
+    width: 100%;
+    height: 100%;
+}
+
+.grid {
+    display: grid;
+    grid-template-columns: repeat(12, 1fr);
+    column-gap: fluid(24px, 16px);
+}
+
+.gc-1 {
+    grid-column: span 1;
+}
+.gc-2 {
+    grid-column: span 2;
+}
+.gc-3 {
+    grid-column: span 3;
+}
+.gc-4 {
+    grid-column: span 4;
+}
+.gc-5 {
+    grid-column: span 5;
+}
+.gc-6 {
+    grid-column: span 6;
+}
+.gc-7 {
+    grid-column: span 7;
+}
+.gc-8 {
+    grid-column: span 8;
+}
+.gc-9 {
+    grid-column: span 9;
+}
+.gc-10 {
+    grid-column: span 10;
+}
+.gc-11 {
+    grid-column: span 11;
+}
+.gc-12 {
+    grid-column: span 12;
+}
+
+
+.gc-1 {
+    grid-column: span 1;
+}
+.gc-2 {
+    grid-column: span 2;
+}
+.gc-3 {
+    grid-column: span 3;
+}
+.gc-4 {
+    grid-column: span 4;
+}
+.gc-5 {
+    grid-column: span 5;
+}
+.gc-6 {
+    grid-column: span 6;
+}
+.gc-7 {
+    grid-column: span 7;
+}
+.gc-8 {
+    grid-column: span 8;
+}
+.gc-9 {
+    grid-column: span 9;
+}
+.gc-10 {
+    grid-column: span 10;
+}
+.gc-11 {
+    grid-column: span 11;
+}
+.gc-12 {
+    grid-column: span 12;
+}
+
+$breakpoints: (
+    bd: 1680px,
+    fd: 1440px,
+    d: 1280px,
+    t: 1100px,
+    st: 780px,
+    m: 640px,
+    s: 480px,
+);
+
+@each $name, $size in $breakpoints {
+    @media (max-width: $size) {
+        @for $i from 1 through 12 {
+            .gc-#{$i}-#{$name} {
+                grid-column: span $i;
+            }
+        }
+    }
+}

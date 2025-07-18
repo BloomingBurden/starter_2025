@@ -1,0 +1,44 @@
+@use 'lib' as *;
+
+.air-datepicker-global-container,
+.main-calendar {
+    z-index: 9999;
+}
+
+.air-datepicker--pointer {
+    &::after,
+    &::before {
+        background: rgba(40, 42, 55, 0.9);
+    }
+}
+
+.main-calendar {
+    --adp-font-family: inherit;
+    --adp-color: var(--light);
+    --adp-background-color: rgba(40, 42, 55, 1);
+    --adp-border-color-inline: rgba(40, 42, 55, 0.9);
+    --adp-border-color-inner: rgba(40, 42, 55, 0.9);
+    --adp-border-color: rgba(40, 42, 55, 0.9);
+    --adp-width: 246px;
+    --adp-background-color-hover: #50a1f8;
+    --adp-background-color-active: #439af8;
+    --adp-background-color-in-range: rgba(92, 196, 239, .1);
+    --adp-background-color-in-range-focused: rgba(92, 196, 239, .2);
+    --adp-background-color-selected-other-month-focused: #EE2ECF;
+    --adp-background-color-selected-other-month: #ea5fd3;
+    --adp-color-secondary: #9c9c9c;
+    --adp-accent-color: #f330d3;
+    --adp-color-current-date: var(--adp-accent-color);
+    --adp-color-other-month: #dedede;
+    --adp-color-disabled: #aeaeae;
+    --adp-color-disabled-in-range: #939393;
+    --adp-color-other-month-hover: #c5c5c5;
+    --adp-day-name-color: #3898ff;
+    --adp-day-name-color-hover: #ea5fd3;
+    --adp-cell-background-color-hover: var(--adp-background-color-hover);
+    --adp-cell-background-color-selected: var(--hover-gradient);
+    --adp-cell-background-color-selected-hover: var(--hover-gradient);
+    --adp-cell-background-color-in-range: rgba(92, 196, 239, 0.1);
+    --adp-cell-background-color-in-range-hover: rgba(92, 196, 239, 0.2);
+}
+

@@ -1,0 +1,22 @@
+@use 'lib' as * with(
+	$breakpoints: (
+		'xxxs': 360px,
+		'xxs': 480px,
+		'xs': 640px,
+		'sm': 780px,
+		'md': 960px,
+		'lg': 1100px,
+		'xlg': 1280px,
+		'xxlg': 1440px,
+		'xxxlg': 1680px,
+		'xxxxlg': 1928px
+	)
+);
+
+@use "../../node_modules/swiper/swiper";
+@use "../../node_modules/swiper/modules/effect-fade";
+@use "../../node_modules/@fancyapps/ui/dist/fancybox/fancybox.css";
+
+@use "./lib/general.scss";
+@use "./lib/ui.scss";
+@use "../blocks/**/*.scss";

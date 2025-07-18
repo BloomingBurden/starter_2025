@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="ru">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no"> 
+        <link rel="stylesheet" href="style.css?v=0">
+        <link rel="shortcut icon" href="images/favicon.ico"> 
+        <title>{{ title or "Business-up" }}</title>
+    </head>
+    <body>       
+        {% include "partials/header.html" %}
+        <main>
+            {% block content %}{% endblock %}
+        </main>
+        {% include "partials/footer.html" %}
+        <script src="common.js?v=0"></script>
+        {% include 'sprite.svg' %}
+    </body>
+</html>
