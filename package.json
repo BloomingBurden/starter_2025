@@ -37,6 +37,7 @@
 		"gulp-fonter": "^0.3.0",
 		"gulp-glob-sass": "^1.0.3",
 		"gulp-group-css-media-queries": "^1.2.2",
+		"gulp-html-beautify": "^1.0.1",
 		"gulp-if": "^3.0.0",
 		"gulp-load-plugins": "^2.0.8",
 		"gulp-newer": "^1.4.0",

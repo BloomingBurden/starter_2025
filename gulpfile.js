@@ -6,6 +6,7 @@ const isDev = process.argv.indexOf('--dev') !== -1;
 const isProd = !isDev;
 const version = +isProd && Date.now();
 const cheerio = require('gulp-cheerio');
+const htmlbeautify = require('gulp-html-beautify');
 
 const $ = require('gulp-load-plugins')({
     pattern: ['*', '!sass']
@@ -142,6 +143,11 @@ function html() {
         .on('error', swallowError)
         .pipe(rename({ extname: '.html' }))
         .pipe($.replace(/(\.(css|js)\?v=)\d+\b/g, `$1${version}`))
+        .pipe($.if(isProd, htmlbeautify({
+            indent_size: 2,
+            preserve_newlines: true,
+            max_preserve_newlines: 1
+        })))
         .pipe(gulp.dest(pth.pbl.html))
         .pipe($.if(isSync, $.browserSync.stream()));
 }
