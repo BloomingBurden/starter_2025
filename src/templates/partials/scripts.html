@@ -1,0 +1,130 @@
+<script>
+// <!-- Карта 1 -->
+// <div class="map"
+//      data-map-id="map1"
+//      data-center="55.751244,37.618423"
+//      data-placemarks="[[55.751244,37.618423], [55.762,37.615]]"
+//      style="width: 100%; height: 400px;"></div>
+
+// <!-- Карта 2 -->
+// <div class="map"
+//      data-map-id="map2"
+//      data-center="59.848371,30.510147"
+//      data-placemarks="[[59.848371,30.510147]]"
+//      style="width: 100%; height: 400px;"></div>
+
+// <!-- Кнопки управления для каждой карты -->
+// <a href="#" data-map-target="map1" data-map-coords="55.762,37.615">Переместить Москву</a>
+// <a href="#" data-map-target="map2" data-map-coords="59.848371,30.510147">Переместить СПб</a>
+
+window.addEventListener('load', () => {
+    const maps = document.querySelectorAll('.map');
+
+
+    const lazyScript = (src, path) => {
+        const existing = document.querySelector(`script[src="${src}"]`);
+        if (existing) return existing;
+
+        const script = document.createElement('script');
+        script.src = src;
+        script.async = false;
+        path.append(script);
+        return script;
+    };
+
+    const options = {
+        rootMargin: '500px',
+        threshold: 0,
+    };
+
+    const mapInstances = new Map();
+
+    const initMap = (container) => {
+        const mapId = container.dataset.mapId;
+
+        if (!mapId) {
+            console.warn('Map container missing data-map-id');
+            return;
+        }
+
+        const center = container.dataset.center
+            ? container.dataset.center.split(',').map(Number)
+            : [59.848371, 30.510147];
+
+        const mapInstance = new ymaps.Map(container, {
+            center: center,
+            zoom: 16,
+            controls: ['zoomControl']
+        });
+
+        const placemarkData = container.dataset.placemarks;
+        if (placemarkData) {
+            try {
+                const coordsList = JSON.parse(placemarkData);
+                coordsList.forEach(coords => {
+                    const placemark = new ymaps.Placemark(coords, {}, {
+                        iconLayout: 'default#image',
+                        iconImageHref: './img/mark.svg',
+                        iconImageSize: [48, 48],
+                        iconImageOffset: [-5, -38]
+                    });
+                    mapInstance.geoObjects.add(placemark);
+                });
+            } catch (e) {
+                console.warn(`Ошибка в data-placemarks карты ${mapId}:`, e);
+            }
+        }
+
+        mapInstance.behaviors.disable('scrollZoom');
+
+        mapInstances.set(mapId, mapInstance);
+    };
+
+    const loadYMaps = () => {
+        return new Promise((resolve) => {
+            if (window.ymaps) {
+                ymaps.ready(resolve);
+                return;
+            }
+            const script = lazyScript('https://api-maps.yandex.ru/2.1/?lang=ru_RU', document.body);
+            script.onload = () => ymaps.ready(resolve);
+        });
+    };
+
+    const observer = new IntersectionObserver((entries) => {
+        for (const entry of entries) {
+            if (entry.isIntersecting) {
+                const mapContainer = entry.target;
+                loadYMaps().then(() => initMap(mapContainer));
+                observer.unobserve(mapContainer);
+            }
+        }
+    }, options);
+
+    maps.forEach(map => {
+        if (!map.dataset.mapId) {
+            map.dataset.mapId = 'map-' + Math.random().toString(36).substr(2, 9);
+        }
+        observer.observe(map);
+    });
+
+    // Управление кнопками
+    const buttons = document.querySelectorAll('[data-map-coords][data-map-target]');
+    buttons.forEach(button => {
+        button.addEventListener('click', (evt) => {
+            evt.preventDefault();
+
+            const targetId = button.dataset.mapTarget;
+            const coords = button.dataset.mapCoords.split(',').map(Number);
+            const targetMap = mapInstances.get(targetId);
+
+            if (targetMap) {
+                targetMap.setCenter(coords);
+                targetMap.setZoom(16);
+            } else {
+                console.warn(`Карта с id "${targetId}" ещё не загружена или не существует`);
+            }
+        });
+    });
+});
+</script>
