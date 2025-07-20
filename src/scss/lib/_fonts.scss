@@ -1,1 +1,7 @@
-// @include font-face("NameOfFile", "ShortName", 400);
+@font-face {
+	font-family: ALS;
+	font-display: swap;
+	src: url("./fonts/ALS_Hauss_Next_Condensed_Regular.woff2") format("woff2");
+	font-weight: 400;
+	font-style: normal;
+}
