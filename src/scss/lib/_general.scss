@@ -202,22 +202,27 @@ body, html {
     grid-column: span 12;
 }
 
-$breakpoints: (
-    bd: 1680px,
-    fd: 1440px,
-    d: 1280px,
-    t: 1100px,
-    st: 780px,
-    m: 640px,
-    s: 480px,
-);
 
-@each $name, $size in $breakpoints {
-    @media (max-width: $size) {
-        @for $i from 1 through 12 {
-            .gc-#{$i}-#{$name} {
-                grid-column: span $i;
-            }
-        }
-    }
-}
+// $breakminepoints: (
+//     'xxxs': 360px,
+//     'xxs': 480px,
+//     'xs': 640px,
+//     'sm': 780px,
+//     'md': 960px,
+//     'lg': 1100px,
+//     'xlg': 1280px,
+//     'xxlg': 1440px,
+//     'xxxlg': 1680px,
+//     'xxxxlg': 1928px
+// );
+
+// @each $name, $size in $breakminepoints {
+//     @media (max-width: $size) {
+//         @for $i from 1 through 12 {
+//             .gc-#{$i}-#{$name} {
+//                 grid-column: span $i;
+//             }
+//         }
+//     }
+// }
+

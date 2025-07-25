@@ -100,7 +100,7 @@ export class CustomSelect {
 
   updateSelectedText() {
     const text = this.isMultiple ? this.getSelectedTextMultiple() : this.getSelectedText();
-    this.selected.innerHTML = `${text} ${this.settings.icon ? `<svg class="${this.settings.icon}" aria-hidden="true"><use xlink:href="#icon-arrow-down"></use></svg>` : ''}`;
+    this.selected.innerHTML = `<span class="custom-select__text">${text}</span> ${this.settings.icon ? `<span class="${this.settings.icon}" aria-hidden="true"></span>` : ''}`;
   }
 
   bindEvents() {
