@@ -56,6 +56,33 @@
 ```
 🔔 Важно: Объявляйте переменные непосредственно перед вставкой компонента, чтобы избежать конфликтов с другими частями шаблона.
 
+#### Еще пример:
+
+```
+<div class="doctor {{doctor.cls}}">
+    <div class="doctor__top">
+        <div class="doctor__img">
+            <img src="{{doctor.img}}" alt="Изображение" width="325" height="380" loading="lazy">
+        </div>
+        <span class="doctor__experience">{{doctor.exp}}</span>
+    </div>
+    <h3 class="doctor__name title title-26">{{doctor.name}}</h3>
+    <p class="doctor__job">{{doctor.name}}</p>
+</div>
+```
+
+```
+{% set doctor = {
+    "cls": "doctors__item",
+    "img": "./img/doctor/1.webp",
+    "exp": "Стаж 12 лет",
+    "name": "Чекалова Марина Альбертовна",
+    "job": "Врач ультразвуковой диагностики"
+} %}
+{% include "./partials/doctor.html" %}
+```
+
+
 ### 📁 Пример структуры страницы
 ```
 {% extends "layouts/default.html" %}
@@ -64,6 +91,15 @@
    {% set breadcrumbsCls = "top__breadcrumbs" %}
    {% set list = ["Главная", "Услуги", "Дизайн"] %}
    {% include "./partials/breadcrumbs.html" %}
+
+    {% set doctor = {
+        "cls": "doctors__item",
+        "img": "./img/doctor/1.webp",
+        "exp": "Стаж 12 лет",
+        "name": "Чекалова Марина Альбертовна",
+        "job": "Врач ультразвуковой диагностики"
+    } %}
+   {% include "./partials/doctor.html" %}
 
    {% include "./partials/about.html" %}
    {% include "./partials/pagination.html" %}
