@@ -155,28 +155,17 @@ function html() {
 
 function styles() {
     return gulp.src(pth.src.css)
+		.pipe($.plumber({ errorHandler: swallowError }))
         .pipe($.if(isDev, $.sourcemaps.init()))
         .pipe($.globSass())
-        .pipe(sass())
-        .on('error', swallowError)
+        .pipe(sass()).on('error', swallowError)
         .pipe($.autoprefixer({
             overrideBrowserslist: ["last 4 version"],
             cascade: false,
             grid: true
         }))
         .pipe($.if(isProd, $.groupCssMediaQueries()))
-
-        // Удаляем неиспользуемые стили
-        .pipe($.if(isProd, purgecss({
-            content: [
-                './src/templates/**/*.html',
-                './src/js/**/*.js'
-            ],
-            defaultExtractor: content => content.match(/[\w-/:]+(?<!:)/g) || []
-        })))
-
-        // Минификация через cssnano
-        .pipe($.if(isProd, postcss([cssnano()])))
+		.pipe($.if(isProd, $.cleanCss({ compatibility: { properties: { zeroUnits: false }}})))
 
         .pipe($.if(isDev, $.sourcemaps.write()))
         .pipe(gulp.dest(pth.pbl.css))
