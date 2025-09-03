@@ -22,7 +22,7 @@ export class CustomSearch {
   constructor(el, options = {}) {
     this.el = el;
     if (!el) return;
-
+    this.hidden = !!el.dataset.search;
     /**
      * Элемент input для ввода запроса.
      * @type {HTMLInputElement}
@@ -30,6 +30,8 @@ export class CustomSearch {
     this.input = this.el.querySelector('[data-search-input]');
     if (!this.input) return;
 
+
+    this.list = this.el.querySelectorAll('[data-search-item]');
     this.options = {
       ...options,
     };
@@ -64,13 +66,23 @@ export class CustomSearch {
     this.items.forEach(titleEl => {
       const originalText = titleEl.textContent;
       const lowerText = originalText.toLowerCase();
+      const item = titleEl.closest('[data-search-item]');
       // Очистка предыдущей подсветки
       titleEl.innerHTML = originalText;
 
+
       if (query && lowerText.includes(query)) {
+        if (this.hidden && item) {
+          item.style.removeProperty('display');
+        }
+        
         anyMatch = true;
         const regex = new RegExp(`(${query})`, "gi");
         titleEl.innerHTML = originalText.replace(regex, '<b class="highlight">$1</b>');
+      } else {
+        if (this.hidden && item) {
+          item.style.display = 'none';
+        }
       }
     });
 
@@ -78,6 +90,10 @@ export class CustomSearch {
       this.el.classList.add("open");
     } else {
       this.el.classList.remove("open");
+    }
+
+    if (query.length === 0) {
+      this.list.forEach(item => item.style.removeProperty('display'));
     }
   }
 }

@@ -8,6 +8,7 @@ const isProd = !isDev;
 const version = +isProd && Date.now();
 const cheerio = require('gulp-cheerio');
 const htmlbeautify = require('gulp-html-beautify');
+const typograf = require('gulp-typograf');
 
 const $ = require('gulp-load-plugins')({
     pattern: ['*', '!sass']
@@ -17,10 +18,6 @@ const data = require('gulp-data');
 const fs = require('fs');
 const nunjucksRender = require('gulp-nunjucks-render');
 const rename = require('gulp-rename');
-
-const postcss = require('gulp-postcss');
-const cssnano = require('cssnano');
-const purgecss = require('gulp-purgecss');
 
 let pckg = require('./package.json');
 let webconf = {
@@ -144,6 +141,12 @@ function html() {
         .on('error', swallowError)
         .pipe(rename({ extname: '.html' }))
         .pipe($.replace(/(\.(css|js)\?v=)\d+\b/g, `$1${version}`))
+        .pipe(typograf({
+            locale: ['ru', 'en-US'],
+            rules: [
+                'ru/nbsp/afterShortWord'
+            ]
+        }))
         .pipe($.if(isProd, htmlbeautify({
             indent_size: 2,
             preserve_newlines: true,
